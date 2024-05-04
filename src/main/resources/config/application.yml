@@ -89,7 +89,8 @@ problem:
 
 server:
   port: 8081
-  forward-headers-strategy: framework
+#  forward-headers-strategy: framework
+  forward-headers-strategy: native
 #    servlet:
 #        context-path: /api
 logging:
