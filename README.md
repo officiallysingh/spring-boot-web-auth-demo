@@ -1,6 +1,6 @@
 ## Run
-Run the main class [`ProblemWebDemoApplication`](src/main/java/com/ksoot/web/auth/SpringBootWebAuthApplication.java)
-and access Swagger [`Swagger`](http://localhost:8080/swagger-ui.html) at http://localhost:8080/swagger-ui.html
+Run the main class [`SpringBootWebAuthApplication`](src/main/java/com/ksoot/web/auth/SpringBootWebAuthApplication.java), it startes the server at 8081 port.  
+Now access Swagger [`Swagger`](http://localhost:8081/swagger-ui.html) at http://localhost:8081/swagger-ui.html
 
 Select `Application` from dropdown **Select a definition**
 
