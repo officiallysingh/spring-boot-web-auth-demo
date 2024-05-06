@@ -1,5 +1,6 @@
 package com.ksoot.web.auth;
 
+import com.ksoot.web.auth.security.IdentityHelper;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
@@ -63,7 +64,7 @@ public class BooksController {
   }
 
   @GetMapping(path = "/hello")
-  public ResponseEntity<String> sayHello(final Principal principal) {
-    return ResponseEntity.ok("Hello " + principal.getName() + " from Downstream stream service");
+  public ResponseEntity<String> sayHello() {
+    return ResponseEntity.ok("Hello " + IdentityHelper.getClaim("unique_name") + " from Downstream stream service");
   }
 }
