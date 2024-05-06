@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -51,13 +53,23 @@ class SecurityConfiguration {
                     : SWAGGER_URLS).permitAll()
 //                .requestMatchers("/problems/**", "/**/pets/**").permitAll()
                 .anyRequest().authenticated()
-            ).oauth2ResourceServer(
+            )
+                .oauth2ResourceServer(
                 resourceServerCustomizer ->
                         resourceServerCustomizer.jwt(
                                 jwtCustomizer ->
                                         jwtCustomizer
                                                 .jwtAuthenticationConverter(this.jwtAuthenticationConverter())
-                                                .decoder(new JwtStringDecoder())));
+                                                .decoder(new JwtStringDecoder())))
+
+//                .oauth2ResourceServer((oauth2ResourceServer) ->
+//                        oauth2ResourceServer
+//                                .jwt((jwt) ->
+//                                        jwt
+//                                                .decoder(jwtDecoder())
+//                                )
+//                )
+        ;
 
         if (this.authenticationEntryPoint != null) {
           http.exceptionHandling(
@@ -75,7 +87,30 @@ class SecurityConfiguration {
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(JwtUtils.jwtGrantedAuthoritiesConverter());
+//        jwtAuthenticationConverter.setPrincipalClaimName(JwtUtils.PRINCIPLE_NAME_CLAIM_ID);
         jwtAuthenticationConverter.setPrincipalClaimName(JwtUtils.PRINCIPLE_NAME_CLAIM_ID);
         return jwtAuthenticationConverter;
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests((authorizeRequests) ->
+//                        authorizeRequests
+//                                .anyRequest().authenticated()
+//                )
+//                .oauth2ResourceServer((oauth2ResourceServer) ->
+//                        oauth2ResourceServer
+//                                .jwt((jwt) ->
+//                                        jwt
+//                                                .decoder(jwtDecoder())
+//                                )
+//                );
+//        return http. build();
+//    }
+
+//    @Bean
+//    public JwtDecoder jwtDecoder() {
+//        return NimbusJwtDecoder.withIssuerLocation("https://login.microsoftonline.com/<Your tenant id>/v2.0").build();
+//    }
 }

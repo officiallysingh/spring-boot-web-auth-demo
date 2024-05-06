@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,7 +53,7 @@ public class BooksController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-//  @PreAuthorize("hasAuthority('APPROLE_Books.Read')")
+//  @PreAuthorize("!hasAuthority('APPROLE_Books.Read')")
   @GetMapping(path = "/books")
   public ResponseEntity<Collection<Book>> getAllBook() {
     return ResponseEntity.ok(this.books.values());
@@ -64,7 +66,8 @@ public class BooksController {
   }
 
   @GetMapping(path = "/hello")
-  public ResponseEntity<String> sayHello() {
+  public ResponseEntity<String> sayHello(@AuthenticationPrincipal Principal principal) {
+    Authentication authentication = IdentityHelper.getAuthentication();
     return ResponseEntity.ok("Hello " + IdentityHelper.getClaim("unique_name") + " from Downstream stream service");
   }
 }

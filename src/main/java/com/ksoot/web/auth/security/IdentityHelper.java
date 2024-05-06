@@ -20,7 +20,10 @@ public class IdentityHelper {
     public enum ClaimName {
 
         //@formatter:off
-    SUBJECT("preferred_username"), CLIENT_ID("clientId"), CLIENT_NAME("client_name");
+        USERNAME("unique_name"),
+        SUBJECT("sub"),
+        CLIENT_ID("clientId"),
+        CLIENT_NAME("client_name");
     //@formatter:on
 
         private final String value;

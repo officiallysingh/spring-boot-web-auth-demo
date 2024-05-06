@@ -87,9 +87,6 @@ problem:
   stacktrace-enabled: false
   cause-chains-enabled: false
 
-  oauth2:
-
-
 server:
   port: 8081
 #  forward-headers-strategy: framework

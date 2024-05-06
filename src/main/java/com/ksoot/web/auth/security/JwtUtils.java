@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 @Log4j2
 class JwtUtils {
 
-	static final String PRINCIPLE_NAME_CLAIM_ID = IdentityHelper.ClaimName.CLIENT_NAME.value();
+	static final String PRINCIPLE_NAME_CLAIM_ID = IdentityHelper.ClaimName.SUBJECT.value();
 
 	private static Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter
 			.withDefaults(Collections.emptyMap());
