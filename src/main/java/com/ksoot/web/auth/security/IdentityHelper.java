@@ -21,9 +21,7 @@ public class IdentityHelper {
 
         //@formatter:off
         USERNAME("unique_name"),
-        SUBJECT("sub"),
-        CLIENT_ID("clientId"),
-        CLIENT_NAME("client_name");
+        SUBJECT("sub");
         //@formatter:on
 
         private final String value;
@@ -93,6 +91,10 @@ public class IdentityHelper {
         } else {
             throw new InsufficientAuthenticationException("Authentication required");
         }
+    }
+
+    public static String getUsername() {
+        return getClaim(ClaimName.USERNAME.value());
     }
 
     public static String getAuditUserId() {

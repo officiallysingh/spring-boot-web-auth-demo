@@ -66,8 +66,11 @@ public class BooksController {
   }
 
   @GetMapping(path = "/hello")
-  public ResponseEntity<String> sayHello(@AuthenticationPrincipal Principal principal) {
-    Authentication authentication = IdentityHelper.getAuthentication();
+  public ResponseEntity<String> sayHello(final Principal principal, final Authentication authentication) {
+    String username = principal.getName();
+    username = IdentityHelper.getLoginName();
+    username = IdentityHelper.getUsername();
+//    Authentication authentication = IdentityHelper.getAuthentication();
     return ResponseEntity.ok("Hello " + IdentityHelper.getClaim("unique_name") + " from Downstream stream service");
   }
 }

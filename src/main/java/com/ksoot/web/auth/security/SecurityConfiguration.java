@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -62,16 +61,7 @@ class SecurityConfiguration {
                                 jwtCustomizer ->
                                         jwtCustomizer
                                                 .jwtAuthenticationConverter(this.jwtAuthenticationConverter())
-                                                .decoder(new JwtStringDecoder())))
-
-//                .oauth2ResourceServer((oauth2ResourceServer) ->
-//                        oauth2ResourceServer
-//                                .jwt((jwt) ->
-//                                        jwt
-//                                                .decoder(jwtDecoder())
-//                                )
-//                )
-        ;
+                                                .decoder(new JwtStringDecoder())));
 
         if (this.authenticationEntryPoint != null) {
           http.exceptionHandling(
@@ -100,26 +90,4 @@ class SecurityConfiguration {
             return JwtUtils.decodeToken(token);
         }
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests((authorizeRequests) ->
-//                        authorizeRequests
-//                                .anyRequest().authenticated()
-//                )
-//                .oauth2ResourceServer((oauth2ResourceServer) ->
-//                        oauth2ResourceServer
-//                                .jwt((jwt) ->
-//                                        jwt
-//                                                .decoder(jwtDecoder())
-//                                )
-//                );
-//        return http. build();
-//    }
-
-//    @Bean
-//    public JwtDecoder jwtDecoder() {
-//        return NimbusJwtDecoder.withIssuerLocation("https://login.microsoftonline.com/<Your tenant id>/v2.0").build();
-//    }
 }
