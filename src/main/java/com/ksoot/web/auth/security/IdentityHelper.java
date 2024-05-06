@@ -24,11 +24,11 @@ public class IdentityHelper {
         SUBJECT("sub"),
         CLIENT_ID("clientId"),
         CLIENT_NAME("client_name");
-    //@formatter:on
+        //@formatter:on
 
         private final String value;
 
-        private ClaimName(final String value) {
+        ClaimName(final String value) {
             this.value = value;
         }
 

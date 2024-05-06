@@ -22,12 +22,12 @@ import java.util.Map.Entry;
 @Log4j2
 class JwtUtils {
 
-	static final String PRINCIPLE_NAME_CLAIM_ID = IdentityHelper.ClaimName.SUBJECT.value();
+//	static final String PRINCIPLE_NAME_CLAIM_ID = IdentityHelper.ClaimName.SUBJECT.value();
 
 	private static Converter<Map<String, Object>, Map<String, Object>> claimSetConverter = MappedJwtClaimSetConverter
 			.withDefaults(Collections.emptyMap());
 
-	static Jwt decodeToken(String token) throws JwtException {
+	static Jwt decodeToken(final String token) throws JwtException {
 		log.trace("token --->>" + token);
 		JWT jwt = parse(token);
 		if (jwt instanceof PlainJWT) {
@@ -48,7 +48,7 @@ class JwtUtils {
 		return createdJwt;
 	}
 
-	private static JWT parse(String token) {
+	private static JWT parse(final String token) {
 		try {
 			return JWTParser.parse(token);
 		} catch (final Exception e) {
@@ -56,7 +56,7 @@ class JwtUtils {
 		}
 	}
 
-	private static Jwt createJwt(String token, JWT parsedJwt) {
+	private static Jwt createJwt(final String token, final JWT parsedJwt) {
 		try {
 			JWTClaimsSet jwtClaimsSet = extractJWTClaimsSet(parsedJwt);
 			Map<String, Object> headers = new LinkedHashMap<>(parsedJwt.getHeader().toJSONObject());

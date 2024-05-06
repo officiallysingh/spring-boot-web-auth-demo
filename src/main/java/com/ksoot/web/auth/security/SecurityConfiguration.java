@@ -9,7 +9,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -87,9 +89,16 @@ class SecurityConfiguration {
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(JwtUtils.jwtGrantedAuthoritiesConverter());
-//        jwtAuthenticationConverter.setPrincipalClaimName(JwtUtils.PRINCIPLE_NAME_CLAIM_ID);
-        jwtAuthenticationConverter.setPrincipalClaimName(JwtUtils.PRINCIPLE_NAME_CLAIM_ID);
+        jwtAuthenticationConverter.setPrincipalClaimName(IdentityHelper.ClaimName.SUBJECT.value());
         return jwtAuthenticationConverter;
+    }
+
+    static class JwtStringDecoder  implements JwtDecoder {
+
+        @Override
+        public Jwt decode(final String token) throws JwtException {
+            return JwtUtils.decodeToken(token);
+        }
     }
 
 //    @Bean
