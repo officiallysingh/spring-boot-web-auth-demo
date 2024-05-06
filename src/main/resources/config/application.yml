@@ -96,7 +96,8 @@ server:
 logging:
   level:
     ROOT: DEBUG
-#    '[org.mongodb.driver]': warn
+    '[org.springframework.security]': debug
+    '[org.springframework.web]': debug
 debug: false
 
 # ===================================================================

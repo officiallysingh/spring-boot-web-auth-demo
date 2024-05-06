@@ -4,11 +4,14 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.security.Principal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/api")
 @SecurityScheme(
     name = "bearerAuth",
     type = SecuritySchemeType.HTTP,
@@ -39,8 +42,8 @@ public class BooksController {
     this.books.put(3, Book.of(3, "George Orwell", "1984"));
   }
 
-//  @PreAuthorize("hasAuthority('APPROLE_Books.Read')")
-  @GetMapping("/{id}")
+//  @PreAuthorize("hasAuthority('ROLE_Books.Read')")
+  @GetMapping("/books/{id}")
   public ResponseEntity<Book> getBook(@PathVariable Integer id) {
     return Optional.ofNullable(this.books.get(id))
         .map(book -> ResponseEntity.ok().body(book))
@@ -48,14 +51,19 @@ public class BooksController {
   }
 
 //  @PreAuthorize("hasAuthority('APPROLE_Books.Read')")
-  @GetMapping
+  @GetMapping(path = "/books")
   public ResponseEntity<Collection<Book>> getAllBook() {
     return ResponseEntity.ok(this.books.values());
   }
 
 //  @PreAuthorize("hasAuthority('APPROLE_Books.Write')")
-  @PostMapping
+  @PostMapping(path = "/books")
   public Book addBook(@RequestBody Book book) {
     return this.books.put(book.getId(), book);
+  }
+
+  @GetMapping(path = "/hello")
+  public ResponseEntity<String> sayHello(final Principal principal) {
+    return ResponseEntity.ok("Hello " + principal.getName() + " from Downstream stream service");
   }
 }
